@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset='UTF-8'>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap-grid.min.css" rel="stylesheet">
+		<script src="https://cdn.bootcss.com/js-sha256/0.9.0/sha256.min.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script src="/js/notify.min.js"></script>
+		<title>敢不敢赌，我也喜欢你？</title>
+	</head>
+
+	<body style="background-color: #4ec7f8;">
+		<div class="container">
+
+			<br/>
+
+			<h2>敢不敢赌，我也喜欢你？</h2>
+			<hr/>
+
+			<h4>无风险告白</h4>
+
+			<p>只会向后台发送虚线框中内容,<br/>
+			欢迎查看html源码自行检查。<br/>
+			不必再把最最不愿透露的隐私<br/>
+			告诉不知道可不可靠的后台工作人员，<br/>
+			基于密码学，真正更安全</p>
+			<p><small>(提交后显示：分享二维码到TA能看到的地方吧)</small></p>
+
+			<script type="text/javascript">
+				$.notify.defaults({autoHideDelay: 1500});
+function genHash() {
+	var nameA = document.getElementById('nameA').value;
+	var nameB = document.getElementById('nameB').value;
+	if(nameA && nameA.length < 7 && nameB && nameB.length < 7) {
+		var h1 = sha256(nameA+'|'+nameB);
+		var h2 = sha256(nameB+'|'+nameA);
+
+		var hh = '';
+		for(var i=0;i<h1.length;++i)
+			hh += (h1[i] > h2[i] ? h1[i] : h2[i]);  
+		hh += sha256(nameA);
+		document.getElementById('hash').value = hh;
+		$.notify('已生成神秘代码', 'success');
+	}
+	else
+		$.notify('输入不合法', 'warn');
+	return false;
+}
+
+function sendData() {
+	$('#send')[0].disabled = true;
+	var data = {
+		s: $('#s')[0].value,
+		hash: $('#hash')[0].value
+	};
+	$.ajax({
+		type:'POST',
+		url:'/meetLove/api/',
+		data:data, 
+		success:(result,status,xhr) => {
+			console.log(result+' : '+status);
+		},
+		error:(xhr,status,error) => {
+			$.notify(xhr.status+' : '+xhr.responseText, "error");
+			$('#send')[0].disabled = false;
+		}
+	});
+	return false;
+}
+
+			</script>
+
+			<div style="margin:5% 10%">
+				<form class="form-inline" action="javascript:void(0);" onsubmit="return genHash()">
+					<label class="sr-only" for="nameA">Name</label>
+					<input type="text" class="form-control mb-2 mr-sm-2" id="nameA" placeholder="我的名字">
+
+					<label class="sr-only" for="nameB">Name</label>
+					<div class="input-group mb-2 mr-sm-2">
+						<div class="input-group-prepend">
+							<div class="input-group-text">喜欢</div>
+						</div>
+						<input type="text" class="form-control" id="nameB" placeholder="TA的名字">
+					</div>
+
+					<button type="submit" class="btn btn-primary mb-2">生成神秘代码</button>
+				</form>
+			</div>
+
+			<div style="margin:2% 7%;padding:3%;border: 1px dashed white;border-radius:15px;">
+				<form action="javascript:void(0);" onsubmit="return sendData()">
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="s">自定义暗号<br/><small>(长度至少8，仅用于查询配对是否成功和绑定闭社id)</small></label>
+							<input type="text" class="form-control" id="s" placeholder="暗号">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="hash">神秘代码<br/><small>(生成的哈希值)</small></label>
+							<input type="text" class="form-control" id="hash" placeholder="神秘代码" readonly>
+						</div>
+						<button type="submit" class="btn btn-primary mb-2" id="send">发送！</button>
+					</div>
+				</form>
+			</div>
+
+			<hr/>
+			<a href="#">点击查看配对情况</a>
+			<br/>
+			<br/>
+			<p>清华用户建议告白后使用自定义暗号绑定闭社账号<br/>
+			- 匹配成功后第一时间提醒<br/>
+			- 如果都绑定了，匹配成功后对跳，避免恶作剧</p>
+			<a href="#">详细指南</a>
+
+		</div>
+
+		<footer style="background-color:#002147;color:white;border-top: 1px solid white;margin-top:20px;padding-top:10px;">
+			<div class="footer" id="footer">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+							<h4> 闭社出品 closed.social </h4>
+							<p>隐私 安全 开源</p>
+							<p>(logo)</p>
+						</div>
+						<div class="col-lg-3 col-sm-2 col-xs-3">
+							<h5> Contact </h5>
+							<ul>
+								<li><a class="email" href="mailto:info@closed.social"> info@closed.social </a></li>
+							</ul>
+							<h5> Code </h5>
+							<ul>
+								<li><a class="web" href="https://github.com/closed-social"> github.com/closed-social </a></li>
+							</ul>
+							<h5> About </h5>
+							<ul>
+								<li><a class="web" href="#">【自闭社交】告别... </a></li>
+							</ul>
+						</div>
+						<!--/.row-->
+					</div>
+					<!--/.container-->
+				</div>
+				<!--/.footer-->
+
+				<div>
+					<hr style="border-top: 1px solid white;"/>
+					<p style="font-size:75%;margin:0;text-align:center"> © 2019 Copyright: closed.social</p>
+				</div>
+			</div>
+			<!--/.footer-bottom-->
+
+		</footer>
+	</body>
+</html>
