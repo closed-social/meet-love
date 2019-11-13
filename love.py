@@ -43,6 +43,9 @@ class Record(db.Model):
 @app.route('/js/<path:path>')
 def send_js(path):
     return send_from_directory('static/js', path)
+@app.route('/img/<path:path>')
+def send_img(path):
+    return send_from_directory('static/img', path)
 
 @app.route('/meetLove/')
 def root():
@@ -69,7 +72,7 @@ def api():
     if Record.query.filter_by(s=s).count():
         return '暗号重复', 422
     if Record.query.filter_by(name_hash=ha[64:]).count():
-        return '一个名字只能告白一次,重名/哈希冲突请联系主办方', 422
+        return '一个名字只能告白一次,\n重名/哈希冲突请联系主办方', 422
     rec = Record(s, ha[64:], ha[:64], ip)
     rec = Record(s, ha[64:], ha[:64], ip)
     db.session.add(rec)

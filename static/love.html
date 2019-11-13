@@ -11,7 +11,7 @@
 		<title>敢不敢赌，我也喜欢你？</title>
 	</head>
 
-	<body style="background-color: #4ec7f8;">
+	<body style="background-color: #002147;color:#e8e8e8">
 		<div class="container">
 
 			<br/>
@@ -21,12 +21,9 @@
 
 			<h4>无风险告白</h4>
 
-			<p>只会向后台发送虚线框中内容,<br/>
-			欢迎查看html源码自行检查。<br/>
-			不必再把最最不愿透露的隐私<br/>
+			<p>不必把最最不愿透露的隐私<br/>
 			告诉不知道可不可靠的后台工作人员，<br/>
 			基于密码学，真正更安全</p>
-			<p><small>(提交后显示：分享二维码到TA能看到的地方吧)</small></p>
 
 			<script type="text/javascript">
 				$.notify.defaults({autoHideDelay: 1500});
@@ -88,7 +85,7 @@ function sendData() {
 					<button type="submit" class="btn btn-primary mb-2">生成神秘代码</button>
 				</form>
 			</div>
-
+		
 			<div style="margin:2% 7%;padding:3%;border: 1px dashed white;border-radius:15px;">
 				<form action="javascript:void(0);" onsubmit="return sendData()">
 					<div class="form-row">
@@ -104,6 +101,11 @@ function sendData() {
 					</div>
 				</form>
 			</div>
+			
+			<div align=center style="font-size:50%">
+			<p>只会向后台发送虚线框中内容,
+				欢迎查看html源码自行检查。</p>
+			</div>
 
 			<hr/>
 			<a href="#">点击查看配对情况</a>
@@ -111,19 +113,22 @@ function sendData() {
 			<br/>
 			<p>清华用户建议告白后使用自定义暗号绑定闭社账号<br/>
 			- 匹配成功后第一时间提醒<br/>
-			- 如果都绑定了，匹配成功后对跳，避免恶作剧</p>
+			- 匹配成功后对跳，避免冒充</p>
 			<a href="#">详细指南</a>
 
 		</div>
 
-		<footer style="background-color:#002147;color:white;border-top: 1px solid white;margin-top:20px;padding-top:10px;">
+		<footer style="background-color:#000010;color:white;border-top: 1px solid white;margin-top:20px;padding-top:10px;">
 			<div class="footer" id="footer">
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 							<h4> 闭社出品 closed.social </h4>
 							<p>隐私 安全 开源</p>
-							<p>(logo)</p>
+							<div class="text-center">
+								<img src="/img/logo.svg" width="64px"/>
+							</div>
+
 						</div>
 						<div class="col-lg-3 col-sm-2 col-xs-3">
 							<h5> Contact </h5>
@@ -136,7 +141,7 @@ function sendData() {
 							</ul>
 							<h5> About </h5>
 							<ul>
-								<li><a class="web" href="#">【自闭社交】告别... </a></li>
+								<li><a class="web" href="#">闭社介绍</a></li>
 							</ul>
 						</div>
 						<!--/.row-->
