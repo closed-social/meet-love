@@ -62,7 +62,7 @@ function sendData() {
 				'<h3>恭喜!!!!</h3><p>天啊TA也喜欢你</p><p>分享给更多人沾沾喜气吧</p>'
 				: '<h3>TA暂时还没有给你表白</h3><p>偷偷分享到TA也能看到的地方吧~</p>';
 			$('#form1').html(showText);
-			$('#form2').html('<div style="margin:10px; padding:5px;border: 3px solid white;box-shadow: rgb(202, 202, 202) 5px 5px 8px;font-size:0;"><img src="/img/qr1.png" width="100%"/></div><div align=center style="font-size:65%"><p>长按图片保存</p></div>');
+			$('#form2').html('<div style="margin:10px; padding:5px;border: 3px solid white;box-shadow: rgb(202, 202, 202) 5px 5px 8px;font-size:0;"><img src="/img/qr1.jpg" width="100%"/></div><div align=center style="font-size:65%"><p>长按图片保存</p></div>');
 		},
 		error:(xhr,status,error) => {
 			$.notify(xhr.status+' : '+xhr.responseText, "error");
