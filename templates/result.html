@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap-grid.min.css" rel="stylesheet">
+	<title>幸运儿们</title>
+</head>
+<body background="/img/bg.jpg">
+	
+	<div style="max-width:900px;" class="container">
+			<div style="background-color:rgba(250,230,230,0.7);margin:0 2%">
+
+				<div align='center' style='background-color:rgba(210,180,200,0.7);padding:1px;color:#ffffff;'>
+					<span align='center' style='color:#555555;'> 闭社-匿名表白活动 </span>
+					<h1 align='center'>配对情况</h1>
+				</div>
+				<table class="table table-hover table-bordered">
+					<tbody>
+						<tr><td><b>A同学暗号</b></td><td ><b>B同学暗号</b></td></tr>
+						{% for lover in lovers %}
+						<tr> 
+							<td>{{lover[0]}}</td> 
+							<td>{{lover[1]}}</a></td>
+						</tr>
+						{% endfor %}
+						</tbody>
+				</table>
+			</div>
+	</div>
+</body>
+

@@ -20,7 +20,7 @@ ip_count = {}
 
 
 def query():
-    print('okkk')
+    pass
 
 class Record(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -73,13 +73,24 @@ def api():
         return '暗号重复', 422
     if Record.query.filter_by(name_hash=ha[64:]).count():
         return '一个名字只能告白一次,\n重名/哈希冲突请联系主办方', 422
+    
+    luck = Record.query.filter_by(full_hash=ha[:64]).count()
+    
     rec = Record(s, ha[64:], ha[:64], ip)
     rec = Record(s, ha[64:], ha[:64], ip)
     db.session.add(rec)
     db.session.commit()
 
-    return 'done'
+    return str(luck)
 
+@app.route('/meetLove/result/')
+def result():
+    rs = Record.query.all()
+    rs.sort(key=lambda r:r.full_hash)
+
+    lovers = [(rs[i].s, rs[i+1].s) for i in range(len(rs)-1) if rs[i].full_hash == rs[i+1].full_hash]
+
+    return render_template('result.html', lovers=lovers)
 
 if __name__ == '__main__':
     scheduler.init_app(app)

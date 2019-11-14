@@ -11,8 +11,8 @@
 		<title>敢不敢赌，我也喜欢你？</title>
 	</head>
 
-	<body style="background-color: #002147;color:#e8e8e8">
-		<div class="container">
+	<body style="background-color: #001a37;color:#e8e8e8">
+		<div class="container" style="max-width:900px;" >
 
 			<br/>
 
@@ -58,6 +58,11 @@ function sendData() {
 		data:data, 
 		success:(result,status,xhr) => {
 			console.log(result+' : '+status);
+			var showText = parseInt(result) > 0 ? 
+				'<h3>恭喜!!!!</h3><p>天啊TA也喜欢你</p><p>分享给更多人沾沾喜气吧</p>'
+				: '<h3>TA暂时还没有给你表白</h3><p>偷偷分享到TA也能看到的地方吧~</p>';
+			$('#form1').html(showText);
+			$('#form2').html('<div style="margin:10px; padding:5px;border: 3px solid white;box-shadow: rgb(202, 202, 202) 5px 5px 8px;font-size:0;"><img src="/img/qr1.png" width="100%"/></div><div align=center style="font-size:65%"><p>长按图片保存</p></div>');
 		},
 		error:(xhr,status,error) => {
 			$.notify(xhr.status+' : '+xhr.responseText, "error");
@@ -69,7 +74,7 @@ function sendData() {
 
 			</script>
 
-			<div style="margin:5% 10%">
+			<div style="margin:5% 10%" id="form1">
 				<form class="form-inline" action="javascript:void(0);" onsubmit="return genHash()">
 					<label class="sr-only" for="nameA">Name</label>
 					<input type="text" class="form-control mb-2 mr-sm-2" id="nameA" placeholder="我的名字">
@@ -86,6 +91,7 @@ function sendData() {
 				</form>
 			</div>
 		
+			<div id="form2">
 			<div style="margin:2% 7%;padding:3%;border: 1px dashed white;border-radius:15px;">
 				<form action="javascript:void(0);" onsubmit="return sendData()">
 					<div class="form-row">
@@ -97,24 +103,27 @@ function sendData() {
 							<label for="hash">神秘代码<br/><small>(生成的哈希值)</small></label>
 							<input type="text" class="form-control" id="hash" placeholder="神秘代码" readonly>
 						</div>
-						<button type="submit" class="btn btn-primary mb-2" id="send">发送！</button>
+						<div class="form-group col-md-2">
+						<button type="submit" class="btn btn-primary" id="send">赌一把！</button>
+						</div>
 					</div>
 				</form>
 			</div>
 			
-			<div align=center style="font-size:50%">
+			<div align=center style="font-size:65%">
 			<p>只会向后台发送虚线框中内容,
-				欢迎查看html源码自行检查。</p>
+				可右键查看网页源码检查。</p>
+			</div>
 			</div>
 
 			<hr/>
-			<a href="#">点击查看配对情况</a>
+			<a href="result">点击查看配对情况</a>
 			<br/>
 			<br/>
 			<p>清华用户建议告白后使用自定义暗号绑定闭社账号<br/>
 			- 匹配成功后第一时间提醒<br/>
 			- 匹配成功后对跳，避免冒充</p>
-			<a href="#">详细指南</a>
+			<p>操作方法：凭清华邮箱登录闭社，<br/>私信<b>表白墙机器人</b>(@wall_bot)你的暗号</p>
 
 		</div>
 
@@ -123,26 +132,19 @@ function sendData() {
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-							<h4> 闭社出品 closed.social </h4>
-							<p>隐私 安全 开源</p>
-							<div class="text-center">
-								<img src="/img/logo.svg" width="64px"/>
+							<img style="float:left;margin:0 15px 15px;" src="/img/logo.svg" width="48px"/>
+							<div style="display:inline;">
+								<h4> 闭社出品 closed.social </h4>
+								<p>隐私 安全 开源</p>
 							</div>
 
 						</div>
 						<div class="col-lg-3 col-sm-2 col-xs-3">
-							<h5> Contact </h5>
-							<ul>
-								<li><a class="email" href="mailto:info@closed.social"> info@closed.social </a></li>
-							</ul>
-							<h5> Code </h5>
-							<ul>
-								<li><a class="web" href="https://github.com/closed-social"> github.com/closed-social </a></li>
-							</ul>
-							<h5> About </h5>
-							<ul>
-								<li><a class="web" href="#">闭社介绍</a></li>
-							</ul>
+							<h5> Contact / <small><a class="email" href="mailto:info@closed.social"> info@closed.social </a> </small></h5>
+							
+							<h5> Code / <small><a class="web" href="//github.com/closed-social"> github.com/closed-social </a></small></h5>
+
+							<h5> About / <small><a class="web" href="/articles/closed/">闭社介绍</a></small> </h5>
 						</div>
 						<!--/.row-->
 					</div>
