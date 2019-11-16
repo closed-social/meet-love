@@ -16,16 +16,21 @@
 					<span align='center' style='color:#555555;'> 闭社-匿名表白活动 </span>
 					<h1 align='center'>配对情况</h1>
 				</div>
-				<table class="table table-hover table-bordered">
+				<table class="table table-striped table-bordered table-responsive" style="word-break:break-all; word-wrap:break-all;">
+					<thead class="thead-light">
+						 <tr  class="row mx-0">
+						 	<th class="col-6" scope="col">A同学暗号</th>
+						 	<th class="col-6" scope="col">B同学暗号</th>
+						 </tr>
+					</thead>
 					<tbody>
-						<tr><td><b>A同学暗号</b></td><td ><b>B同学暗号</b></td></tr>
 						{% for lover in lovers %}
-						<tr> 
-							<td>{{lover[0]}}</td> 
-							<td>{{lover[1]}}</a></td>
+						<tr class="row mx-0"> 
+							<td class="col-6">{{lover[0]}}</td> 
+							<td class="col-6">{{lover[1]}}</a></td>
 						</tr>
 						{% endfor %}
-						</tbody>
+					</tbody>
 				</table>
 			</div>
 	</div>

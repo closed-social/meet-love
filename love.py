@@ -1,6 +1,18 @@
 from flask import Flask, request, render_template, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_apscheduler import APScheduler 
+from mastodon import Mastodon
+import html2text
+
+BOT_NAME = '@wall_bot'
+DOMAIN   = 'thu.closed.social'
+
+token = open('token.secret','r').read().strip('\n')
+th = Mastodon(
+    access_token = token,
+    api_base_url = 'https://' + DOMAIN
+)
+lid = 103145541052439620
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///meetLove.db'
@@ -9,18 +21,64 @@ app.config['JOBS'] = [{
     'id': 'bot',
     'func': 'love:query',
     'trigger': 'interval',
-    'seconds': 15
+    'seconds': 20
     }
 ]
 
-db = SQLAlchemy(app)
-scheduler = APScheduler()
-
 ip_count = {}
+
+h2t = html2text.HTML2Text()
+h2t.ignore_links = True
+
+def PM(msg, name):
+    th.status_post(msg + ' @' + name, visibility='direct')
 
 
 def query():
-    pass
+    r = th.conversations(min_id=lid);
+    if r:
+        lid = r[0].last_status.id
+    for conv in r[::-1]:
+        if conv.unread:
+            th.conversations_read(conv.id)
+
+            name = conv.last_status.account.acct
+            text = conv.last_status.content
+            pt = h2t.handle(text).lstrip()
+            s = pt.replace(BOT_NAME+' ','')
+
+            r = Record.filter_by(cs_username=name).first()
+            if r:
+                PM('只能绑定一个暗号哦，你已经绑定了<%s>' % r.s, name)
+                continue
+
+            if len(s) > 100:
+                PM('什么玩意儿', name)
+                continue
+
+            r = Record.query.filter_by(s=s).first()
+            if not r:
+                PM('没有找到暗号<%s>呢' % s, name)
+                continue
+            
+            if r.cs_username:
+                PM('暗号<%s>的绑定者已变更，你们在搞什么 = =' % s, name+' @'+r.cs_username)
+
+            r.cs_username = name
+            db.session.commit()
+
+            rs =  Record.query.filter_by(full_hash=r.full_hash).all()
+            if( len(rs) == 2 and rs[0].cs_username and rs[1].cs_username):
+                PM('恭喜你们！祝幸福！', rs[0].cs_username + ' @' + rs[1].cs_username)
+            else:
+                PM('已成功绑定<%%s>' % s, name)
+
+
+db = SQLAlchemy(app)
+#scheduler = APScheduler()
+#scheduler.init_app(app)
+#scheduler.start()
+
 
 class Record(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -88,11 +146,9 @@ def result():
     rs = Record.query.all()
     rs.sort(key=lambda r:r.full_hash)
 
-    lovers = [(rs[i].s, rs[i+1].s) for i in range(len(rs)-1) if rs[i].full_hash == rs[i+1].full_hash]
+    lovers = [(rs[i].s[:-4]+'****', rs[i+1].s[:-4]+'****') for i in range(len(rs)-1) if rs[i].full_hash == rs[i+1].full_hash]
 
     return render_template('result.html', lovers=lovers)
 
 if __name__ == '__main__':
-    scheduler.init_app(app)
-    scheduler.start()
-    app.run(debug=True)
+    app.run()

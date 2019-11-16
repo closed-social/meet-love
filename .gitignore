@@ -106,3 +106,6 @@ venv.bak/
 
 # database
 *.db
+
+#secret
+*.secret
