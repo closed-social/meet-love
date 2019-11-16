@@ -12,7 +12,8 @@ th = Mastodon(
     access_token = token,
     api_base_url = 'https://' + DOMAIN
 )
-lid = 103145541052439620
+
+th.lid = 103145541052439620
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///meetLove.db'
@@ -21,7 +22,7 @@ app.config['JOBS'] = [{
     'id': 'bot',
     'func': 'love:query',
     'trigger': 'interval',
-    'seconds': 20
+    'seconds': 15
     }
 ]
 
@@ -31,13 +32,14 @@ h2t = html2text.HTML2Text()
 h2t.ignore_links = True
 
 def PM(msg, name):
-    th.status_post(msg + ' @' + name, visibility='direct')
+    th.status_post(msg + '\n@' + name, visibility='direct')
 
 
 def query():
-    r = th.conversations(min_id=lid);
+    r = th.conversations(min_id=th.lid)
+    #print(th.lid)
     if r:
-        lid = r[0].last_status.id
+        th.lid = r[0].last_status.id
     for conv in r[::-1]:
         if conv.unread:
             th.conversations_read(conv.id)
@@ -45,9 +47,11 @@ def query():
             name = conv.last_status.account.acct
             text = conv.last_status.content
             pt = h2t.handle(text).lstrip()
-            s = pt.replace(BOT_NAME+' ','')
+            s = pt.replace(BOT_NAME+' ','').replace('\n','')
 
-            r = Record.filter_by(cs_username=name).first()
+            #print(s)
+
+            r = Record.query.filter_by(cs_username=name).first()
             if r:
                 PM('只能绑定一个暗号哦，你已经绑定了<%s>' % r.s, name)
                 continue
@@ -71,13 +75,13 @@ def query():
             if( len(rs) == 2 and rs[0].cs_username and rs[1].cs_username):
                 PM('恭喜你们！祝幸福！', rs[0].cs_username + ' @' + rs[1].cs_username)
             else:
-                PM('已成功绑定<%%s>' % s, name)
+                PM('已成功绑定<%s>' % s, name)
 
 
 db = SQLAlchemy(app)
-#scheduler = APScheduler()
-#scheduler.init_app(app)
-#scheduler.start()
+scheduler = APScheduler()
+scheduler.init_app(app)
+scheduler.start()
 
 
 class Record(db.Model):
@@ -132,14 +136,19 @@ def api():
     if Record.query.filter_by(name_hash=ha[64:]).count():
         return '一个名字只能告白一次,\n重名/哈希冲突请联系主办方', 422
     
-    luck = Record.query.filter_by(full_hash=ha[:64]).count()
+    ta = Record.query.filter_by(full_hash=ha[:64]).first()
     
     rec = Record(s, ha[64:], ha[:64], ip)
     rec = Record(s, ha[64:], ha[:64], ip)
     db.session.add(rec)
     db.session.commit()
 
-    return str(luck)
+    if not ta:
+        return ''
+    else:
+        if ta.cs_username:
+            PM('叮~ TA也给你表白啦! https://closed.social/meetLove/result/', ta.cs_username)
+        return 'y' if ta.cs_username else 'n'
 
 @app.route('/meetLove/result/')
 def result():

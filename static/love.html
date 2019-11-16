@@ -73,8 +73,8 @@ function sendData() {
 		data:data, 
 		success:(result,status,xhr) => {
 			console.log(result+' : '+status);
-			var showText = parseInt(result) > 0 ? 
-				'<h3>恭喜!!!!</h3><p>天啊TA也喜欢你</p><p>分享给更多人沾沾喜气吧</p>'
+			var showText = result ? 
+				('<h3>恭喜!!!!</h3><p>天啊TA也喜欢你!<br/><small>(TA' + (result == 'y' ? '已' : '还没有') + '绑定闭社id)</small><br/>分享给更多人沾沾喜气吧</p>')
 				: '<h3>TA暂时还没有给你表白</h3><p>偷偷分享到TA也能看到的地方吧~</p>';
 			$('#form1').html(showText);
 			$('#form2').html('<div style="margin:10px; padding:5px;border: 3px solid white;box-shadow: rgb(202, 202, 202) 5px 5px 8px;font-size:0;"><img src="/img/qr1.jpg" width="100%"/></div><div align=center style="font-size:65%"><p>长按图片保存</p></div>');
@@ -140,7 +140,7 @@ function sendData() {
 			<br/>
 			<div>
 			<p>清华用户建议告白后使用自定义暗号绑定闭社id<br/>
-			- 匹配成功后第一时间提醒<br/>
+			- 绑定后第一时间发送匹配成功的提醒<br/>
 			- 双方都绑定后互曝id，避免冒充<br/>
 			<svg viewbox="0 0 50 100" width="24px" height="24px" stroke="#e8e8e8" stroke-width="7.5" stroke-miterlimit="10" style="margin-left:48px;animation: downn 5s infinite;"><path d="M25.684 10v50.4"/><path d="M40.284 45.4L24.684 61"/><path d="M10.884 45.4l15.6 15.6"/></svg>
 			<br/>
@@ -164,7 +164,7 @@ function sendData() {
 							
 							<h5> Code / <small><a class="web" href="//github.com/closed-social"> github.com/closed-social </a></small></h5>
 
-							<h5> About / <small><a class="web" href="/articles/closed/">闭社介绍</a></small> </h5>
+							<h5> About / <small><a class="web" href="/articles/closed/">【闭社】告别把知乎当校内BBS</a></small> </h5>
 						</div>
 						<!--/.row-->
 					</div>
