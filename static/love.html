@@ -9,6 +9,19 @@
 		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 		<script src="/js/notify.min.js"></script>
 		<title>敢不敢赌，我也喜欢你？</title>
+		<style>
+		@keyframes downn {
+		 	0% {
+		 		transform: translate(0px, 0px);
+		 	}
+			50% {
+			 	transform: translate(0px, 7px);
+            		}
+            		100% {
+                		transform: translate(0px, 0px);
+            		}
+		}
+		</style>
 	</head>
 
 	<body style="background-color: #001a37;color:#e8e8e8">
@@ -24,6 +37,8 @@
 			<p>不必把最最不愿透露的隐私<br/>
 			告诉不知道可不可靠的后台工作人员，<br/>
 			基于密码学，真正更安全</p>
+			
+			<hr style="border-top: 1px solid white;"/>
 
 			<script type="text/javascript">
 				$.notify.defaults({autoHideDelay: 1500});
@@ -96,7 +111,7 @@ function sendData() {
 				<form action="javascript:void(0);" onsubmit="return sendData()">
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<label for="s">自定义暗号<br/><small>(长度至少8，仅用于查询配对是否成功和绑定闭社id)</small></label>
+							<label for="s">自定义暗号<br/><small>(长度至少8，用于配对成功后展示和绑定闭社id)</small></label>
 							<input type="text" class="form-control" id="s" placeholder="暗号">
 						</div>
 						<div class="form-group col-md-6">
@@ -117,13 +132,20 @@ function sendData() {
 			</div>
 
 			<hr/>
-			<a href="result">点击查看配对情况</a>
+			<a href="result">
+			<span><svg fill="#007bff" viewBox="0 0 24 24" width="24" height="24"  transform="rotate(-80)"><path d="M12 13L8.285 9.218a.758.758 0 0 0-1.064 0 .738.738 0 0 0 0 1.052l4.249 4.512a.758.758 0 0 0 1.064 0l4.246-4.512a.738.738 0 0 0 0-1.052.757.757 0 0 0-1.063 0L12.002 13z" style="animation: downn 1.5s infinite;""></path></svg></span>
+			|点击查看配对情况| 
+			<span><svg fill="#007bff" viewBox="0 0 24 24" width="24" height="24"  transform="rotate(80)"><path d="M12 13L8.285 9.218a.758.758 0 0 0-1.064 0 .738.738 0 0 0 0 1.052l4.249 4.512a.758.758 0 0 0 1.064 0l4.246-4.512a.738.738 0 0 0 0-1.052.757.757 0 0 0-1.063 0L12.002 13z" style="animation: downn 1.5s infinite;"></path></svg></span></a>
 			<br/>
 			<br/>
-			<p>清华用户建议告白后使用自定义暗号绑定闭社账号<br/>
+			<div>
+			<p>清华用户建议告白后使用自定义暗号绑定闭社id<br/>
 			- 匹配成功后第一时间提醒<br/>
-			- 匹配成功后对跳，避免冒充</p>
-			<p>操作方法：凭清华邮箱登录闭社，<br/>私信<b>表白墙机器人</b>(@wall_bot)你的暗号</p>
+			- 双方都绑定后互曝id，避免冒充<br/>
+			<svg viewbox="0 0 50 100" width="24px" height="24px" stroke="#e8e8e8" stroke-width="7.5" stroke-miterlimit="10" style="margin-left:48px;animation: downn 5s infinite;"><path d="M25.684 10v50.4"/><path d="M40.284 45.4L24.684 61"/><path d="M10.884 45.4l15.6 15.6"/></svg>
+			<br/>
+			操作方法：凭清华邮箱登录闭社，<br/>私信<b>表白墙机器人</b>(@wall_bot)你的暗号</p>
+			</div>
 
 		</div>
 
@@ -132,11 +154,9 @@ function sendData() {
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-							<img style="float:left;margin:0 15px 15px;" src="/img/logo.svg" width="48px"/>
-							<div style="display:inline;">
-								<h4> 闭社出品 closed.social </h4>
-								<p>隐私 安全 开源</p>
-							</div>
+							<img style="float:left;margin:0 15px 15px 5px;" src="/img/logo.svg" width="48px"/>
+							<h4> 闭社出品 closed.social </h4>
+							<p>隐私 安全 开源</p>
 
 						</div>
 						<div class="col-lg-3 col-sm-2 col-xs-3">
